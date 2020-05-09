@@ -99,32 +99,78 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _resultsearch_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./resultsearch.js */ "./src/js/resultsearch.js");
 
 
-let dataSearch;
-let dataSearchArr = ['dog', 'cat', 'ninja', 'casper'];
-dataSearchArr.forEach(element => {
-  addPoster(element);
-});
+const dataSearchArr = 'dog';
+addPoster(dataSearchArr);
 const MOVIES = document.getElementById('movies');
-let INPUT = document.getElementById('input');
+const INPUT = document.getElementById('input');
 const SUBMIT = document.getElementById('submit');
 const ERROR = document.getElementById('error');
+const CLEAN = document.getElementById('clean');
+const SPINNER = document.getElementById('spinner');
+
+function cleanInput() {
+  INPUT.value = '';
+  INPUT.focus();
+  INPUT.select();
+}
+
+INPUT.focus();
+INPUT.select();
+INPUT.placeholder = 'add a movie name ';
+INPUT.autocomplete = "off";
+INPUT.type = "search";
+CLEAN.addEventListener('click', () => {
+  cleanInput();
+});
 SUBMIT.addEventListener('click', () => {
+  addPosterDataSearch();
+  startSpinner();
+});
+document.addEventListener('keydown', function (event) {
+  if (event.code == 'Enter') {
+    addPosterDataSearch();
+    startSpinner();
+  }
+});
+
+function addPosterDataSearch() {
+  let dataSearch;
   MOVIES.innerHTML = '';
   dataSearch = INPUT.value;
   ERROR.textContent = dataSearch;
-  console.log(dataSearch);
   addPoster(dataSearch);
-});
+}
 
 async function addPoster(dataSearch) {
   let resultSearch;
   const newResultSearch = new _resultsearch_js__WEBPACK_IMPORTED_MODULE_1__["default"](dataSearch);
+  /*
+      try {
+          newResultSearch.catch(err => alert('поймана!'))
+        } catch(err) {
+          console.log(err);
+        }
+  */
+
   resultSearch = await newResultSearch.getResultSearch(dataSearch);
-  const newPoster = new _poster_js__WEBPACK_IMPORTED_MODULE_0__["default"](resultSearch);
-  MOVIES.appendChild(newPoster.createPoster(resultSearch));
+  resultSearch.forEach((element, i) => {
+    stopSpinner();
+    const newPoster = new _poster_js__WEBPACK_IMPORTED_MODULE_0__["default"](resultSearch[i]);
+    MOVIES.appendChild(newPoster.createPoster(resultSearch[i]));
+  });
+}
+
+function stopSpinner() {
+  SPINNER.classList.add('none');
+  CLEAN.classList.remove('none');
 }
 
 ;
+
+function startSpinner() {
+  CLEAN.classList.add('none');
+  SPINNER.classList.remove('none');
+}
 
 /***/ }),
 
@@ -144,14 +190,20 @@ class Poster {
   }
 
   createPoster() {
-    let title = this.resultSearch.title;
-    let img = this.resultSearch.img;
-    let year = this.resultSearch.year;
+    const {
+      title
+    } = this.resultSearch;
+    const {
+      img
+    } = this.resultSearch;
+    const {
+      year
+    } = this.resultSearch;
     let poster = document.createElement('div');
-    let h2Teg = document.createElement('h2');
-    let divTeg = document.createElement('div');
-    let imgTeg = document.createElement('img');
-    let pTegYear = document.createElement('p');
+    const h2Teg = document.createElement('h2');
+    const divTeg = document.createElement('div');
+    const imgTeg = document.createElement('img');
+    const pTegYear = document.createElement('p');
     poster.classList.add('poster');
     h2Teg.textContent = title;
     imgTeg.classList.add('poster__img');
@@ -166,7 +218,6 @@ class Poster {
   }
 
 }
-;
 
 /***/ }),
 
@@ -186,24 +237,47 @@ class ResultSearch {
   }
 
   async getResultSearch() {
-    let dataSearch = this.dataSearch;
+    const {
+      dataSearch
+    } = this;
+    let data;
     const url = `https://www.omdbapi.com/?s=${dataSearch}&apikey=aab7b845`;
     const res = await fetch(url);
-    const data = await res.json();
-    let title, img, year;
-    title = data.Search[0].Title;
-    img = data.Search[0].Poster;
-    year = data.Search[0].Year;
-    let resultSearch = {
-      title,
-      img,
-      year
-    };
+    data = await res.json();
+    let title;
+    let img;
+    let year;
+    let isResponse = false;
+    let resultSearch = [];
+    isResponse = data.Response.toLowerCase();
+
+    if (isResponse === 'false') {
+      isResponse = false;
+    }
+
+    if (isResponse) {
+      data.Search.forEach((element, i) => {
+        title = data.Search[i].Title;
+        img = data.Search[i].Poster;
+        year = data.Search[i].Year;
+        resultSearch[i] = {
+          title,
+          img,
+          year
+        };
+      });
+    } else {
+      resultSearch[0] = {
+        title: '',
+        img: './img/noresult.png',
+        year: ''
+      };
+    }
+
     return resultSearch;
   }
 
 }
-;
 
 /***/ }),
 

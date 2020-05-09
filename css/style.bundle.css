@@ -413,17 +413,73 @@ body {
 .search__text {
   width: 60%;
   min-width: 170px;
-  border-radius: 7px; }
+  border-radius: 7px;
+  text-align: right;
+  padding-right: 20px; }
+
+.spinner__span {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0px;
+  margin: auto;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  animation: spin .5s linear infinite; }
+
+.spinner {
+  position: relative;
+  left: -23px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #00a5f1;
+  z-index: 100; }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+
+.clean {
+  font-size: 28px;
+  position: relative;
+  left: -24px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  z-index: 100; }
+
+.clean__span {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0px; }
 
 .movies {
-  display: flex;
+  display: block;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: center; }
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 462px; }
 
 .poster {
   padding: 5px 25px 10px 25px;
-  max-width: 25%; }
+  max-width: 25%;
+  display: inline-block;
+  white-space: normal; }
 
 @media screen and (min-width: 694px) and (max-width: 915px) {
   .posterr {

@@ -12,11 +12,17 @@
         <header class="header">
             <h1>MovieSearch</h1> 
         </header>
-            <div action="" class="search">
-                <input id="input" type="text" class="search__text" value="dog">
+            <div class="search">
+                <input id="input" type="search" class="search__text" autocomplete="off">
+                <div id="spinner" class="spinner none">
+                    <div  class="spinner__span"></div>
+                </div> 
+                <div id="clean" class="clean">
+                    <div  class="clean__span">X</div>
+                </div>
                 <button id="submit" class="search__submit" >SEARCH</button>
             </div>
-            <p class="intro">Sharing a few of our favourite movies</p>
+            <p class="intro none">Sharing a few of our favourite movies</p>
             <p id="error" class="error-message none">No results "Something went wrong</p>
             <div id="movies" class="movies">
             </div>
