@@ -465,6 +465,68 @@ body {
   left: 0;
   right: 0px; }
 
+.poster {
+  transition: all 1.2s ease-in-out; }
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50vh;
+  color: black;
+  font-weight: bold;
+  font-size: 30px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  border-radius: 3px 0 0 3px; }
+
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: blanchedalmond; }
+
+.prev {
+  left: 80px; }
+
+.next {
+  right: 80px; }
+
+@media screen and (min-width: 694px) and (max-width: 915px) {
+  .prev {
+    left: 40px; }
+  .next {
+    right: 40px; } }
+
+@media screen and (min-width: 652px) and (max-width: 693px) {
+  .prev {
+    left: 20px; }
+  .next {
+    right: 20px; } }
+
+@media screen and (max-width: 651px) {
+  .prev {
+    left: 0px; }
+  .next {
+    right: 0px; } }
+
+/*
+.movies  {
+    -webkit-animation-name: fade;
+    -webkit-animation-duration: 1.5s;
+    animation-name: fade;
+    animation-duration: 1.5s;
+}*/
+@-webkit-keyframes fade {
+  from {
+    opacity: .4; }
+  to {
+    opacity: 1; } }
+
+@keyframes fade {
+  from {
+    opacity: .4; }
+  to {
+    opacity: 1; } }
+
 .movies {
   display: block;
   flex-wrap: wrap;
@@ -478,11 +540,15 @@ body {
 .poster {
   padding: 5px 25px 10px 25px;
   max-width: 25%;
-  display: inline-block;
-  white-space: normal; }
+  display: none;
+  white-space: normal;
+  cursor: pointer; }
+
+.active {
+  display: inline-block; }
 
 @media screen and (min-width: 694px) and (max-width: 915px) {
-  .posterr {
+  .poster {
     max-width: 33%; } }
 
 @media screen and (min-width: 652px) and (max-width: 693px) {
@@ -504,6 +570,15 @@ body {
 .poster__img {
   width: 200px;
   border-radius: 7px; }
+
+.star {
+  display: inline;
+  height: 20px;
+  width: 20px; }
+
+.rating {
+  white-space: nowrap;
+  display: inline; }
 
 .header {
   background-color: #282c34;
