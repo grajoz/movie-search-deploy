@@ -86,173 +86,9 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/js/index.js":
-/*!*************************!*\
-  !*** ./src/js/index.js ***!
-  \*************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _poster_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./poster.js */ "./src/js/poster.js");
-/* harmony import */ var _resultsearch_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./resultsearch.js */ "./src/js/resultsearch.js");
-/* harmony import */ var _ratingsearch_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ratingsearch.js */ "./src/js/ratingsearch.js");
-
-
-
-const dataSearchArr = 'dog';
-addPoster(dataSearchArr);
-const MOVIES = document.getElementById('movies');
-const INPUT = document.getElementById('input');
-const SUBMIT = document.getElementById('submit');
-const ERROR = document.getElementById('error');
-const CLEAN = document.getElementById('clean');
-const SPINNER = document.getElementById('spinner');
-const PREV = document.getElementById('prev');
-const NEXT = document.getElementById('next');
-const POSTER = document.getElementsByClassName('poster');
-let resultSearchArray = [];
-let slideIndex = 1;
-
-function cleanInput() {
-  INPUT.value = '';
-  INPUT.focus();
-  INPUT.select();
-}
-
-INPUT.focus();
-INPUT.select();
-INPUT.placeholder = 'add a movie name ';
-INPUT.autocomplete = 'off';
-INPUT.type = 'search';
-MOVIES.addEventListener('click', event => {
-  let src = event.target;
-  src = src.parentElement;
-  src = src.parentElement;
-
-  if (src.hasAttribute('src')) {
-    src = src.getAttribute('src');
-    document.location.href = src;
-  }
-});
-CLEAN.addEventListener('click', () => {
-  cleanInput();
-  cleanErrorMessage();
-});
-SUBMIT.addEventListener('click', () => {
-  addPosterDataSearch();
-  startSpinner();
-  cleanErrorMessage();
-});
-SPINNER.addEventListener('click', () => {
-  stopSpinner();
-});
-document.addEventListener('keydown', event => {
-  if (event.code == 'Enter') {
-    addPosterDataSearch();
-    startSpinner();
-    cleanErrorMessage();
-  }
-});
-
-function addPosterDataSearch() {
-  cleanErrorMessage();
-  let dataSearch;
-  MOVIES.innerHTML = '';
-  dataSearch = INPUT.value;
-  ERROR.textContent = dataSearch;
-  addPoster(dataSearch);
-}
-
-async function addPoster(dataSearch) {
-  let resultSearch;
-  const newResultSearch = new _resultsearch_js__WEBPACK_IMPORTED_MODULE_1__["default"](dataSearch);
-  resultSearch = await newResultSearch.getResultSearch(dataSearch);
-
-  if (resultSearch[0].imdbID === '') {
-    showErrorMessage(resultSearch[0].title);
-  }
-
-  resultSearch.forEach((element, nodePosterNumber) => {
-    stopSpinner();
-    const newPoster = new _poster_js__WEBPACK_IMPORTED_MODULE_0__["default"](resultSearch[nodePosterNumber]);
-    MOVIES.appendChild(newPoster.createPoster(resultSearch[nodePosterNumber]));
-    resultSearchArray[nodePosterNumber] = resultSearch[nodePosterNumber].imdbID;
-    addRating(resultSearchArray[nodePosterNumber], nodePosterNumber);
-    showSlides(slideIndex);
-  });
-}
-
-async function addRating(resultSearchArray, nodePosterNumber) {
-  const newRartingtSearch = new _ratingsearch_js__WEBPACK_IMPORTED_MODULE_2__["default"](resultSearchArray, nodePosterNumber);
-  const resultRartingtSearch = newRartingtSearch.getRatingtSearch(resultSearchArray, nodePosterNumber);
-}
-
-function showErrorMessage() {
-  stopSpinner();
-  ERROR.classList.remove('none');
-  ERROR.textContent = `No results  "${INPUT.value}"`;
-}
-
-function cleanErrorMessage() {
-  ERROR.classList.add('none');
-}
-
-PREV.addEventListener('click', () => {
-  showSlides(slideIndex -= 1);
-  cleanErrorMessage();
-});
-NEXT.addEventListener('click', () => {
-  showSlides(slideIndex += 1);
-  cleanErrorMessage();
-});
-
-function showSlides(n) {
-  let slides = document.getElementsByClassName('poster');
-
-  if (n > slides.length) {
-    slideIndex = 1;
-  }
-
-  if (n < 1) {
-    slideIndex = slides.length;
-  }
-
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].classList.remove('active');
-  }
-
-  slides[slideIndex - 1].classList.add('active');
-
-  if (slides[slideIndex]) {
-    slides[slideIndex].classList.add('active');
-  }
-
-  if (slides[slideIndex + 1]) {
-    slides[slideIndex + 1].classList.add('active');
-  }
-
-  if (slides[slideIndex + 2]) {
-    slides[slideIndex + 2].classList.add('active');
-  }
-}
-
-function stopSpinner() {
-  SPINNER.classList.add('none');
-  CLEAN.classList.remove('none');
-}
-
-function startSpinner() {
-  CLEAN.classList.add('none');
-  SPINNER.classList.remove('none');
-}
-
-/***/ }),
-
-/***/ "./src/js/poster.js":
+/***/ "./src/js/Poster.js":
 /*!**************************!*\
-  !*** ./src/js/poster.js ***!
+  !*** ./src/js/Poster.js ***!
   \**************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -301,10 +137,10 @@ class Poster {
 
 /***/ }),
 
-/***/ "./src/js/ratingsearch.js":
-/*!********************************!*\
-  !*** ./src/js/ratingsearch.js ***!
-  \********************************/
+/***/ "./src/js/RartingtSearch.js":
+/*!**********************************!*\
+  !*** ./src/js/RartingtSearch.js ***!
+  \**********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -354,9 +190,9 @@ class RartingtSearch {
 
 /***/ }),
 
-/***/ "./src/js/resultsearch.js":
+/***/ "./src/js/ResultSearch.js":
 /*!********************************!*\
-  !*** ./src/js/resultsearch.js ***!
+  !*** ./src/js/ResultSearch.js ***!
   \********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -420,6 +256,244 @@ class ResultSearch {
     return resultSearch;
   }
 
+}
+
+/***/ }),
+
+/***/ "./src/js/ValidateBeforeAfter.js":
+/*!***************************************!*\
+  !*** ./src/js/ValidateBeforeAfter.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ValidateBeforeAfter; });
+class ValidateBeforeAfter {
+  constructor(beforeTranlateDataSearch, afterTranlateDataSearch) {
+    this.beforeTranlateDataSearch = beforeTranlateDataSearch;
+    this.afterTranlateDataSearch = afterTranlateDataSearch;
+  }
+
+  validateBeforeAfter(beforeTranlateDataSearch, afterTranlateDataSearch) {
+    if (beforeTranlateDataSearch !== afterTranlateDataSearch) {
+      console.log(beforeTranlateDataSearch, afterTranlateDataSearch);
+      return true;
+    }
+  }
+
+}
+
+/***/ }),
+
+/***/ "./src/js/index.js":
+/*!*************************!*\
+  !*** ./src/js/index.js ***!
+  \*************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Poster_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Poster.js */ "./src/js/Poster.js");
+/* harmony import */ var _ResultSearch_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ResultSearch.js */ "./src/js/ResultSearch.js");
+/* harmony import */ var _RartingtSearch_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RartingtSearch.js */ "./src/js/RartingtSearch.js");
+/* harmony import */ var _ValidateBeforeAfter_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ValidateBeforeAfter.js */ "./src/js/ValidateBeforeAfter.js");
+
+
+
+
+const MOVIES = document.getElementById('movies');
+const INPUT = document.getElementById('input');
+const SUBMIT = document.getElementById('submit');
+const ERROR = document.getElementById('error');
+const CLEAN = document.getElementById('clean');
+const SPINNER = document.getElementById('spinner');
+const PREV = document.getElementById('prev');
+const NEXT = document.getElementById('next');
+const HEADER__HELP = document.getElementById('header__help');
+const HELP = document.getElementById('help');
+const TRANSLATE__MESSAGE = document.getElementById('translate__message');
+let resultSearchArray = [];
+let slideIndex = 1;
+addPoster('dog');
+cleanTranslateMessage();
+focusImput();
+HEADER__HELP.addEventListener('click', () => {
+  HELP.classList.remove('none');
+});
+HELP.addEventListener('click', event => {
+  event.currentTarget.classList.add('none');
+  focusImput();
+});
+
+function cleanInput() {
+  INPUT.value = '';
+  focusImput();
+  cleanTranslateMessage();
+}
+
+function focusImput() {
+  INPUT.focus();
+  INPUT.select();
+}
+
+INPUT.placeholder = 'add a movie name ';
+INPUT.autocomplete = 'off';
+INPUT.type = 'search';
+MOVIES.addEventListener('click', event => {
+  cleanTranslateMessage();
+  let src = event.target;
+  src = src.parentElement;
+  src = src.parentElement;
+
+  if (src.hasAttribute('src')) {
+    src = src.getAttribute('src');
+    document.location.href = src;
+  }
+});
+CLEAN.addEventListener('click', () => {
+  cleanInput();
+  cleanErrorMessage();
+  cleanTranslateMessage();
+});
+SUBMIT.addEventListener('click', () => {
+  addPosterDataSearch();
+  startSpinner();
+  cleanErrorMessage();
+  cleanTranslateMessage();
+});
+SPINNER.addEventListener('click', () => {
+  stopSpinner();
+});
+document.addEventListener('keydown', event => {
+  if (event.code === 'Enter') {
+    addPosterDataSearch();
+    startSpinner();
+    cleanErrorMessage();
+    cleanTranslateMessage();
+  }
+});
+
+async function addPosterDataSearch() {
+  cleanErrorMessage();
+  let dataSearch;
+  MOVIES.innerHTML = '';
+  dataSearch = INPUT.value;
+  let beforeTranlateDataSearch = dataSearch;
+  ERROR.textContent = dataSearch;
+  const resTranslate = await fetch(`https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200422T124843Z.080b6a504e291973.8a23faf52816f1c303da63567f732b90ec64f825&text= ${dataSearch} &lang=ru-en`);
+  const dataTranslate = await resTranslate.json();
+  dataSearch = String(dataTranslate.text).toLowerCase().trim();
+  let afterTranlateDataSearch = dataSearch;
+  let newValidateBeforeAfter = new _ValidateBeforeAfter_js__WEBPACK_IMPORTED_MODULE_3__["default"](beforeTranlateDataSearch, afterTranlateDataSearch);
+
+  if (newValidateBeforeAfter.validateBeforeAfter(beforeTranlateDataSearch, afterTranlateDataSearch)) {
+    showTranslateMessage(beforeTranlateDataSearch);
+  }
+
+  addPoster(dataSearch);
+}
+/*
+function validateBeforeAfter(beforeTranlateDataSearch, afterTranlateDataSearch){
+    if (beforeTranlateDataSearch !== afterTranlateDataSearch) {
+        return true;
+    }
+}
+*/
+
+
+function showTranslateMessage(beforeTranlateDataSearch) {
+  TRANSLATE__MESSAGE.classList.remove('none');
+  TRANSLATE__MESSAGE.textContent = `Showing results for "${beforeTranlateDataSearch}"`;
+}
+
+function cleanTranslateMessage() {
+  TRANSLATE__MESSAGE.classList.add('none');
+}
+
+async function addPoster(dataSearch) {
+  let resultSearch;
+  const newResultSearch = new _ResultSearch_js__WEBPACK_IMPORTED_MODULE_1__["default"](dataSearch);
+  resultSearch = await newResultSearch.getResultSearch(dataSearch);
+
+  if (resultSearch[0].imdbID === '') {
+    showErrorMessage(resultSearch[0].title);
+  }
+
+  resultSearch.forEach((element, nodePosterNumber) => {
+    stopSpinner();
+    const newPoster = new _Poster_js__WEBPACK_IMPORTED_MODULE_0__["default"](resultSearch[nodePosterNumber]);
+    MOVIES.appendChild(newPoster.createPoster(resultSearch[nodePosterNumber]));
+    resultSearchArray[nodePosterNumber] = resultSearch[nodePosterNumber].imdbID;
+    addRating(resultSearchArray[nodePosterNumber], nodePosterNumber);
+    showSlides(slideIndex);
+  });
+}
+
+async function addRating(resultSearchArray, nodePosterNumber) {
+  const newRartingtSearch = new _RartingtSearch_js__WEBPACK_IMPORTED_MODULE_2__["default"](resultSearchArray, nodePosterNumber);
+  newRartingtSearch.getRatingtSearch(resultSearchArray, nodePosterNumber);
+}
+
+function showErrorMessage() {
+  stopSpinner();
+  ERROR.classList.remove('none');
+  ERROR.textContent = `No results  "${INPUT.value}"`;
+}
+
+function cleanErrorMessage() {
+  ERROR.classList.add('none');
+}
+
+PREV.addEventListener('click', () => {
+  showSlides(slideIndex -= 1);
+  cleanErrorMessage();
+});
+NEXT.addEventListener('click', () => {
+  showSlides(slideIndex += 1);
+  cleanErrorMessage();
+});
+
+function showSlides(n) {
+  let slides = document.getElementsByClassName('poster');
+
+  if (n > slides.length) {
+    slideIndex = 1;
+  }
+
+  if (n < 1) {
+    slideIndex = slides.length;
+  }
+
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].classList.remove('active');
+  }
+
+  slides[slideIndex - 1].classList.add('active');
+
+  if (slides[slideIndex]) {
+    slides[slideIndex].classList.add('active');
+  }
+
+  if (slides[slideIndex + 1]) {
+    slides[slideIndex + 1].classList.add('active');
+  }
+
+  if (slides[slideIndex + 2]) {
+    slides[slideIndex + 2].classList.add('active');
+  }
+}
+
+function stopSpinner() {
+  SPINNER.classList.add('none');
+  CLEAN.classList.remove('none');
+}
+
+function startSpinner() {
+  CLEAN.classList.add('none');
+  SPINNER.classList.remove('none');
 }
 
 /***/ }),

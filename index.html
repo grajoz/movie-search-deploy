@@ -10,6 +10,7 @@
 <body>
     <div class="wrapper">
         <header class="header">
+            <button id="header__help" class="header__help">?</button>
             <h1>MovieSearch</h1> 
         </header>
             <div class="search">
@@ -22,12 +23,25 @@
                 </div>
                 <button id="submit" class="search__submit" >SEARCH</button>
             </div>
-            <p class="intro none">Sharing a few of our favourite movies</p>
+            <p id="translate__message" class="intro none"></p>
             <p id="error" class="error-message none">No results "Something went wrong"</p>
             <div id="movies" class="movies"></div>
             <a id="prev" class="prev">&#10094;</a>
             <a id="next" class="next" >&#10095;</a>
- 
+            <div id="help" class="help none">
+                <div class="help__text">
+                    <span>
+                        Помощь в работе с приложением! <br><br>
+                        (Дополнительная функциональность для таска  Movie-search).<br><br><br>
+                        - в поисковой форме наберите название фильма или ключевые слова на<br> русском или английском языке и нажмите «SEARCH» или кнопку «ENTER» на компьютере.
+                        - в случае ошибки «Too many results» уточните запрос.<br><br>
+                        - кнопки: &#10094; и &#10095; для навигации по постерам.<br><br>
+                        - при нажатии на постер осуществляется переход на видеогаллерею<br> данного фильма на сайте https://www.imdb.com.<br><br>
+                        -для очистки поисковой формы служит кнопка «Х». <br><br><br>
+                    </span>
+                    <button id="help__close" class="help__close">CLOSE</button>
+                </div>
+            </div>
         <footer class="footer">
             <div class="school">RS School 2020q1</div>
             <div class="github">
